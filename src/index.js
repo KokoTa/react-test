@@ -1,12 +1,19 @@
+/*
+ * @Author: KokoTa
+ * @Date: 2021-06-30 14:14:29
+ * @LastEditTime: 2021-06-30 18:00:43
+ * @LastEditors: KokoTa
+ * @Description: 
+ * @FilePath: /react-test/src/index.js
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { ProvideAuth } from './pages';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ProvideAuth></ProvideAuth>
   </React.StrictMode>,
   document.getElementById('root')
 );
