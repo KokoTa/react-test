@@ -10,9 +10,10 @@ import {
   Switch,
   Route,
   Link,
-  useHistory} from 'react-router-dom';
-import { useAuth } from './pages/auth.js';
-import { About, Home, Login, Params, Private, PrivateRoute, Topics, Users } from './pages/index.jsx';
+  useHistory
+} from 'react-router-dom';
+import { useAuth } from './hooks/auth.js';
+import { About, Context, Father, Home, Lazy, Login, Params, Private, PrivateRoute, Query, Topics, Users } from './pages/index.jsx';
 
 function App() {
   const auth = useAuth()
@@ -39,6 +40,9 @@ function App() {
               <Link to="/params/1">Params</Link>
             </li>
             <li>
+              <Link to="/query?id=1">Query</Link>
+            </li>
+            <li>
               {auth.user ? (
                 <div>
                   <span>You are logged.</span>
@@ -46,14 +50,26 @@ function App() {
                     auth.signOut(() => history.push('/'))
                   }}>Sign Out</button>
                 </div>
-              ): (
+              ) : (
                 <span>You are not logged.</span>
               )}
               <Link to="/private">Private</Link>
             </li>
+            <li>
+              <Link to="/father">Father</Link>
+            </li>
+            <li>
+              <Link to="/lazy">Lazy</Link>
+            </li>
+            <li>
+              <Link to="/context">Context</Link>
+            </li>
           </ul>
         </nav>
         <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
           <Route path="/about">
             <About />
           </Route>
@@ -66,14 +82,23 @@ function App() {
           <Route path="/params/:id">
             <Params />
           </Route>
+          <Route path="/query">
+            <Query />
+          </Route>
           <Route path="/login">
             <Login></Login>
           </Route>
           <PrivateRoute path="/private">
             <Private></Private>
           </PrivateRoute>
-          <Route path="/">
-            <Home />
+          <Route path="/father">
+            <Father count={100}></Father>
+          </Route>
+          <Route path="/lazy">
+            <Lazy></Lazy>
+          </Route>
+          <Route path="/context">
+            <Context></Context>
           </Route>
         </Switch>
       </div>

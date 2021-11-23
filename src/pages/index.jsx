@@ -1,6 +1,8 @@
+import { createContext, lazy, Suspense, useContext, useState } from "react";
 import { BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import App from "../App.jsx";
-import { authContext, useAuth, useProvideAuth } from "./auth";
+import { authContext, useAuth, useProvideAuth } from "../hooks/auth";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 
 /*
  * @Author: KokoTa
@@ -10,6 +12,9 @@ import { authContext, useAuth, useProvideAuth } from "./auth";
  * @Description: 
  * @FilePath: /react-test/src/pages/index.jsx
  */
+
+/* ---------------------------------- 路由测试 ---------------------------------- */
+
 export function Home() {
   return <h2>Home</h2>;
 }
@@ -58,9 +63,14 @@ export function Topic() {
 }
 
 export function Params() {
-  // const params = useParams()
-  // console.log(params);
-  return <h2>Params</h2>;
+  const params = useParams()
+  return <h2>Params: {JSON.stringify(params)}</h2>;
+}
+
+export function Query() {
+  const location = useLocation()
+  console.log(location);
+  return <h2>Query</h2>
 }
 
 // 提供用户信息和登入登出方法给整个 APP
@@ -80,7 +90,7 @@ export function PrivateRoute({ children, ...rest }) {
   const location = useLocation()
   return (
     <Route {...rest}>
-      {auth.user ? children : <Redirect to={{ pathname: '/login', state: { from: location }}}></Redirect>}
+      {auth.user ? children : <Redirect to={{ pathname: '/login', state: { from: location } }}></Redirect>}
     </Route>
   )
 }
@@ -107,4 +117,61 @@ export function Login() {
       <button onClick={login}>Log in</button>
     </div>
   );
+}
+
+/* ---------------------------------- 父子组件测试 ---------------------------------- */
+
+export function Father(props) {
+  const [count, setCount] = useState(props.count)
+  const countFn = (v) => {
+    setCount(count + v)
+  }
+  return (
+    <div className="father">
+      Father: {count}
+      <Child countFn={countFn}></Child>
+    </div>
+  )
+}
+
+export function Child(props) {
+  return (
+    <div className="child">
+      Child: <button onClick={() => props.countFn(10)}>Click</button>
+    </div>
+  )
+}
+
+/* ------------------------------- React.lazy ------------------------------- */
+
+export function Lazy() {
+  const Lazy = lazy(() => import(/* webpackChunkName: "Lazy" */'./components/Lazy'))
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Lazy></Lazy>
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
+/* --------------------------- React.createContext -------------------------- */
+
+const MyContext = createContext()
+
+export function ContextChild() {
+  const context = useContext(MyContext)
+  return (
+    <h2>{context.count}</h2>
+  )
+}
+
+export function Context() {
+  const [count, setCount] = useState(100)
+  return (
+    <MyContext.Provider value={{ count }}>
+      <ContextChild></ContextChild>
+      <button onClick={() => setCount(count + 1)}>count + 1</button>
+    </MyContext.Provider>
+  )
 }
