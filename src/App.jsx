@@ -13,7 +13,7 @@ import {
   useHistory
 } from 'react-router-dom';
 import { useAuth } from './hooks/auth.js';
-import { About, Context, Father, Home, Lazy, Login, Params, Private, PrivateRoute, Query, Topics, Users } from './pages/index.jsx';
+import { About, Context, Father, Home, Lazy, Login, Params, Portal, Private, PrivateRoute, Pure, Query, Ref, ShouldUpdate, Topics, Users } from './pages/index.jsx';
 
 function App() {
   const auth = useAuth()
@@ -64,6 +64,18 @@ function App() {
             <li>
               <Link to="/context">Context</Link>
             </li>
+            <li>
+              <Link to="/ref">Ref</Link>
+            </li>
+            <li>
+              <Link to="/shouldUpdate">ShouldUpdate</Link>
+            </li>
+            <li>
+              <Link to="/pure">Pure</Link>
+            </li>
+            <li>
+              <Link to="/portal">Portal</Link>
+            </li>
           </ul>
         </nav>
         <Switch>
@@ -99,6 +111,18 @@ function App() {
           </Route>
           <Route path="/context">
             <Context></Context>
+          </Route>
+          <Route path="/ref">
+            <Ref></Ref>
+          </Route>
+          <Route path="/shouldUpdate">
+            <ShouldUpdate></ShouldUpdate>
+          </Route>
+          <Route path="/pure">
+            <Pure></Pure>
+          </Route>
+          <Route path="/portal">
+            <Portal></Portal>
           </Route>
         </Switch>
       </div>

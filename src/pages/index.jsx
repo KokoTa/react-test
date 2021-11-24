@@ -1,4 +1,5 @@
-import { createContext, lazy, Suspense, useContext, useState } from "react";
+import { Component, createContext, createRef, forwardRef, lazy, PureComponent, Suspense, useContext, useState } from "react";
+import ReactDOM from 'react-dom'
 import { BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import App from "../App.jsx";
 import { authContext, useAuth, useProvideAuth } from "../hooks/auth";
@@ -156,9 +157,13 @@ export function Lazy() {
 }
 
 /* --------------------------- React.createContext -------------------------- */
+// 为什么不能用 createContext 代替 redux，因为 createContext 改变会影响所有使用到的组件，造成多余渲染，而 redux 会进行比较渲染
 
 const MyContext = createContext()
 
+/**
+ * Fn 模式
+ */
 export function ContextChild() {
   const context = useContext(MyContext)
   return (
@@ -166,12 +171,109 @@ export function ContextChild() {
   )
 }
 
+/**
+ * Class 模式
+ */
+export class ContextChild2 extends Component {
+  static contextType = MyContext
+  render() {
+    const context = this.context
+    return <h2>{context.count}</h2>
+  }
+}
+
 export function Context() {
   const [count, setCount] = useState(100)
   return (
     <MyContext.Provider value={{ count }}>
       <ContextChild></ContextChild>
+      <ContextChild2></ContextChild2>
       <button onClick={() => setCount(count + 1)}>count + 1</button>
     </MyContext.Provider>
   )
 }
+
+/* ----------------------------- React.createRef ---------------------------- */
+// 只有父组件要传递 ref 这个属性名的时候会用到 forwardRef，比如下面的 <RefBtn ref={ref}...
+
+export const RefBtn = forwardRef((props, ref) => (
+  <button ref={ref} onClick={props.handleClick}>
+    {props.children}
+  </button>
+));
+
+export function Ref() {
+  const ref = createRef()
+  return <RefBtn ref={ref} handleClick={() => console.log(ref)}>Click me</RefBtn>
+}
+
+/* -------------------------- shouldComponentUpdate ------------------------- */
+// 该钩子返回 true 会重新渲染，返回 false 不会渲染
+// 一般来说会使用 PureComponent，而不会使用这个钩子
+
+export class ShouldUpdateChild extends Component {
+  shouldComponentUpdate(prevProps, nextState) {
+    console.log(prevProps, nextState)
+    if (prevProps.count > 105) return false
+    else return true
+  }
+
+  render() {
+    return <h2>{this.props.count}</h2>
+  }
+}
+
+export function ShouldUpdate() {
+  const [count, setCount] = useState(100)
+
+  return (
+    <>
+      <ShouldUpdateChild count={count}></ShouldUpdateChild>
+      <button onClick={() => setCount(count + 1)}>count + 1</button>
+    </>
+  )
+}
+
+/* ---------------------------- PureComponent ---------------------------- */
+// PureComponent 是浅比较，不过要是数据都是 immutable 的话，用 PureComponent 没啥问题
+// 该例子的数据不是 immutable 的，所以无法触发渲染
+
+export class PureChild extends PureComponent {
+  render() {
+    return <h2>{this.props.obj.arr.map((item) => <span key={item}>{item}<br/></span>)}</h2>
+  }
+}
+
+export class Pure extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      obj: { arr: [Math.random()] }
+    }
+  }
+
+  render() {
+    return (
+      <>
+        <PureChild obj={this.state.obj}></PureChild>
+        <button onClick={() => {
+          const state = this.state
+          state.obj.arr.push(Math.random())
+          this.setState(this.state)
+        }}>push number</button>
+      </>
+    )
+  }
+}
+
+/* --------------------------------- Portal -------------------------------- */
+
+export function Portal() {
+  return (
+    <div onClick={(e) => console.log(e.target)}>
+      <h2>Child1</h2>
+      {ReactDOM.createPortal(<h2>Child2</h2>, document.querySelector('body'))}
+    </div>
+  )
+}
+
