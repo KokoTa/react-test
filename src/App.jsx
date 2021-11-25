@@ -13,7 +13,7 @@ import {
   useHistory
 } from 'react-router-dom';
 import { useAuth } from './hooks/auth.js';
-import { About, Context, Father, Home, Lazy, Login, Params, Portal, Private, PrivateRoute, Pure, Query, Ref, ShouldUpdate, Topics, Users } from './pages/index.jsx';
+import { About, Context, Effect, Father, Home, Lazy, Login, MemoFather, Params, Portal, Private, PrivateRoute, Pure, Query, Ref, ShouldUpdate, Topics, Users } from './pages/index.jsx';
 
 function App() {
   const auth = useAuth()
@@ -76,6 +76,12 @@ function App() {
             <li>
               <Link to="/portal">Portal</Link>
             </li>
+            <li>
+              <Link to="/memo">Memo</Link>
+            </li>
+            <li>
+              <Link to="/effect">Effect</Link>
+            </li>
           </ul>
         </nav>
         <Switch>
@@ -123,6 +129,12 @@ function App() {
           </Route>
           <Route path="/portal">
             <Portal></Portal>
+          </Route>
+          <Route path="/memo">
+            <MemoFather></MemoFather>
+          </Route>
+          <Route path="/effect">
+            <Effect></Effect>
           </Route>
         </Switch>
       </div>

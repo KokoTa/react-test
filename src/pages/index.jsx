@@ -1,4 +1,4 @@
-import { Component, createContext, createRef, forwardRef, lazy, PureComponent, Suspense, useContext, useState } from "react";
+import { Component, createContext, createRef, forwardRef, lazy, memo, PureComponent, Suspense, useContext, useEffect, useState } from "react";
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Link, Redirect, Route, Switch, useHistory, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import App from "../App.jsx";
@@ -269,11 +269,71 @@ export class Pure extends Component {
 /* --------------------------------- Portal -------------------------------- */
 
 export function Portal() {
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <div onClick={(e) => console.log(e.target)}>
       <h2>Child1</h2>
-      {ReactDOM.createPortal(<h2>Child2</h2>, document.querySelector('body'))}
+      <button onClick={() => setIsOpen(!isOpen)}>Toggle Child2</button>
+      {isOpen ? ReactDOM.createPortal(<h2>Child2</h2>, document.querySelector('body')) : null}
     </div>
   )
 }
 
+/* ------------------------------- React.memo ------------------------------- */
+// 作用和 PureComponent 同理
+
+export function MemoChild(props) {
+  return <h2>{props.obj.arr.map((item) => <span key={item}>{item}<br/></span>)}</h2>
+}
+
+const MemoChildWrap = memo(MemoChild)
+
+export class MemoFather extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      obj: { arr: [Math.random()] }
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <MemoChildWrap obj={this.state.obj}></MemoChildWrap>
+        <button onClick={() => {
+          const state = this.state
+          state.obj.arr.push(Math.random())
+          this.setState(this.state)
+        }}>push number</button>
+      </div>
+    )
+  }
+}
+
+/* -------------------------------- useEffect ------------------------------- */
+
+export function Effect() {
+  const [count, setCount] = useState(0)
+  const [num, setNum] = useState(Math.random())
+
+  useEffect(() => {
+    console.log('我每次渲染都触发')
+  })
+
+  useEffect(() => {
+    console.log('我只有初次渲染的时候触发')
+  }, [])
+
+  useEffect(() => {
+    console.log('我只有 count 发生改变的时候触发')
+  }, [count])
+
+  return (
+    <>
+      <h2>{count}</h2>
+      <h2>{num}</h2>
+      <button onClick={() => setCount(count + 1)}>add count</button>
+      <button onClick={() => setNum(Math.random())}>change name</button>
+    </>
+  )
+}
