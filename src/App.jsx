@@ -3,19 +3,36 @@
  * @Date: 2021-06-30 14:14:29
  * @LastEditTime: 2021-06-30 18:27:17
  * @LastEditors: KokoTa
- * @Description: 
+ * @Description:
  * @FilePath: /react-test/src/App.jsx
  */
+import { Switch, Route, Link, useHistory } from 'react-router-dom'
+import React from 'react'
+import { useAuth } from './hooks/auth.js'
+import { Father } from './router/father.jsx'
+import { Lazy } from './router/lazy.jsx'
 import {
-  Switch,
-  Route,
-  Link,
-  useHistory
-} from 'react-router-dom';
-import { useAuth } from './hooks/auth.js';
-import { About, Context, Effect, Father, Home, Lazy, Login, MemoFather, Params, Portal, Private, PrivateRoute, Pure, Query, Ref, ShouldUpdate, Topics, Users } from './pages/index.jsx';
+  Home,
+  About,
+  Users,
+  Topics,
+  Params,
+  Query,
+  Private,
+  Login,
+  PrivateRoute
+} from './router/router'
+import { Context } from './router/context.jsx'
+import { Ref } from './router/ref.jsx'
+import { ShouldUpdate } from './router/update.jsx'
+import { Pure } from './router/pure.jsx'
+import { Portal } from './router/portal.jsx'
+import { MemoFather } from './router/memo.jsx'
+import { Effect } from './router/effect.jsx'
+import { AsyncHook } from './router/async.jsx'
+import { ContextPerf } from './router/context-perf.jsx'
 
-function App() {
+function App () {
   const auth = useAuth()
   const history = useHistory()
 
@@ -43,16 +60,22 @@ function App() {
               <Link to="/query?id=1">Query</Link>
             </li>
             <li>
-              {auth.user ? (
+              {auth.user
+                ? (
                 <div>
                   <span>You are logged.</span>
-                  <button onClick={() => {
-                    auth.signOut(() => history.push('/'))
-                  }}>Sign Out</button>
+                  <button
+                    onClick={() => {
+                      auth.signOut(() => history.push('/'))
+                    }}
+                  >
+                    Sign Out
+                  </button>
                 </div>
-              ) : (
+                  )
+                : (
                 <span>You are not logged.</span>
-              )}
+                  )}
               <Link to="/private">Private</Link>
             </li>
             <li>
@@ -81,6 +104,12 @@ function App() {
             </li>
             <li>
               <Link to="/effect">Effect</Link>
+            </li>
+            <li>
+              <Link to="/asyncHook">AsyncHook</Link>
+            </li>
+            <li>
+              <Link to="/contextPerf">ContextPerf</Link>
             </li>
           </ul>
         </nav>
@@ -136,10 +165,16 @@ function App() {
           <Route path="/effect">
             <Effect></Effect>
           </Route>
+          <Route path="/asyncHook">
+            <AsyncHook></AsyncHook>
+          </Route>
+          <Route path="/contextPerf">
+            <ContextPerf></ContextPerf>
+          </Route>
         </Switch>
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
