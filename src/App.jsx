@@ -31,6 +31,7 @@ import { MemoFather } from './router/memo.jsx'
 import { Effect } from './router/effect.jsx'
 import { AsyncHook } from './router/async.jsx'
 import { ContextPerf } from './router/context-perf.jsx'
+import { Reducer } from './router/reducer.jsx'
 
 function App () {
   const auth = useAuth()
@@ -88,6 +89,9 @@ function App () {
               <Link to="/context">Context</Link>
             </li>
             <li>
+              <Link to="/contextPerf">ContextPerf</Link>
+            </li>
+            <li>
               <Link to="/ref">Ref</Link>
             </li>
             <li>
@@ -97,10 +101,10 @@ function App () {
               <Link to="/pure">Pure</Link>
             </li>
             <li>
-              <Link to="/portal">Portal</Link>
+              <Link to="/memo">Memo</Link>
             </li>
             <li>
-              <Link to="/memo">Memo</Link>
+              <Link to="/portal">Portal</Link>
             </li>
             <li>
               <Link to="/effect">Effect</Link>
@@ -109,7 +113,7 @@ function App () {
               <Link to="/asyncHook">AsyncHook</Link>
             </li>
             <li>
-              <Link to="/contextPerf">ContextPerf</Link>
+              <Link to="/useReducer">useReducer</Link>
             </li>
           </ul>
         </nav>
@@ -147,6 +151,9 @@ function App () {
           <Route path="/context">
             <Context></Context>
           </Route>
+          <Route path="/contextPerf">
+            <ContextPerf></ContextPerf>
+          </Route>
           <Route path="/ref">
             <Ref></Ref>
           </Route>
@@ -156,11 +163,11 @@ function App () {
           <Route path="/pure">
             <Pure></Pure>
           </Route>
-          <Route path="/portal">
-            <Portal></Portal>
-          </Route>
           <Route path="/memo">
             <MemoFather></MemoFather>
+          </Route>
+          <Route path="/portal">
+            <Portal></Portal>
           </Route>
           <Route path="/effect">
             <Effect></Effect>
@@ -168,8 +175,8 @@ function App () {
           <Route path="/asyncHook">
             <AsyncHook></AsyncHook>
           </Route>
-          <Route path="/contextPerf">
-            <ContextPerf></ContextPerf>
+          <Route path="/useReducer">
+            <Reducer></Reducer>
           </Route>
         </Switch>
       </div>

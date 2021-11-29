@@ -22,7 +22,7 @@ export function Effect () {
     <>
       <h2>{count}</h2>
       <h2>{num}</h2>
-      <button onClick={() => setCount(count + 1)}>add count</button>
+      <button onClick={() => setCount(count + 1)}>count + 1</button>
       <button onClick={() => setNum(Math.random())}>change name</button>
     </>
   )

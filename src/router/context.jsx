@@ -1,5 +1,6 @@
 /* --------------------------- React.createContext -------------------------- */
 // 为什么不能用 createContext 代替 redux，因为 createContext 改变会影响所有使用到的组件，造成多余渲染，而 redux 会进行比较渲染
+// 然而对于中小项目来说，redux 已经不是必须的了
 
 import React, { Component, createContext, useContext, useState } from 'react'
 
