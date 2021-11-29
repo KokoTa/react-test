@@ -32,6 +32,8 @@ import { Effect } from './router/effect.jsx'
 import { AsyncHook } from './router/async.jsx'
 import { ContextPerf } from './router/context-perf.jsx'
 import { Reducer } from './router/reducer.jsx'
+import { Previous } from './router/previous.jsx'
+import { Rect } from './router/rect.jsx'
 
 function App () {
   const auth = useAuth()
@@ -115,6 +117,12 @@ function App () {
             <li>
               <Link to="/useReducer">useReducer</Link>
             </li>
+            <li>
+              <Link to="/previous">Previous</Link>
+            </li>
+            <li>
+              <Link to="/rect">Rect</Link>
+            </li>
           </ul>
         </nav>
         <Switch>
@@ -177,6 +185,12 @@ function App () {
           </Route>
           <Route path="/useReducer">
             <Reducer></Reducer>
+          </Route>
+          <Route path="/previous">
+            <Previous></Previous>
+          </Route>
+          <Route path="/rect">
+            <Rect></Rect>
           </Route>
         </Switch>
       </div>
