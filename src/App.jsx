@@ -35,6 +35,7 @@ import { Reducer } from './router/reducer.jsx'
 import { Previous } from './router/previous.jsx'
 import { Rect } from './router/rect.jsx'
 import { Test } from './router/test.jsx'
+import { CounterWrap } from './router/redux.jsx'
 
 function App () {
   const auth = useAuth()
@@ -125,6 +126,9 @@ function App () {
               <Link to="/rect">Rect</Link>
             </li>
             <li>
+              <Link to="/reduxDemo">ReduxDemo</Link>
+            </li>
+            <li>
               <Link to="/test">Test</Link>
             </li>
           </ul>
@@ -195,6 +199,9 @@ function App () {
           </Route>
           <Route path="/rect">
             <Rect></Rect>
+          </Route>
+          <Route path="/reduxDemo">
+            <CounterWrap></CounterWrap>
           </Route>
           <Route path="/test">
             <Test></Test>
