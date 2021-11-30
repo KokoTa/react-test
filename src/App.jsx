@@ -34,6 +34,7 @@ import { ContextPerf } from './router/context-perf.jsx'
 import { Reducer } from './router/reducer.jsx'
 import { Previous } from './router/previous.jsx'
 import { Rect } from './router/rect.jsx'
+import { Test } from './router/test.jsx'
 
 function App () {
   const auth = useAuth()
@@ -123,6 +124,9 @@ function App () {
             <li>
               <Link to="/rect">Rect</Link>
             </li>
+            <li>
+              <Link to="/test">Test</Link>
+            </li>
           </ul>
         </nav>
         <Switch>
@@ -191,6 +195,9 @@ function App () {
           </Route>
           <Route path="/rect">
             <Rect></Rect>
+          </Route>
+          <Route path="/test">
+            <Test></Test>
           </Route>
         </Switch>
       </div>
