@@ -23,13 +23,17 @@ export const slice = createSlice({
 // 代替 mapActionsToProps 的写法
 export const { increment, decrement, incrementByAmount } = slice.actions
 
-export const incrementAsync = value => async (dispatch) => {
+export const incrementAsync = value => async (dispatch, getState) => {
+  const stateBefore = getState()
+  console.log(`Counter before: ${stateBefore.counter.value}`)
   await new Promise((resolve) => {
     setTimeout(() => {
       resolve()
     }, 1000)
   })
   dispatch(incrementByAmount(value))
+  const stateAfter = getState()
+  console.log(`Counter after: ${stateAfter.counter.value}`)
 }
 
 // 代替 mapStatesToProps 的写法

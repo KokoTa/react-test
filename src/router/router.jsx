@@ -1,7 +1,7 @@
 /* ---------------------------------- 路由测试 ---------------------------------- */
 
 import propTypes from 'prop-types'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { BrowserRouter, Link } from 'react-router-dom'
 import { Redirect, Route, Switch, useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min'
 import App from '../App'
@@ -62,7 +62,8 @@ export function Params () {
 export function Query () {
   const location = useLocation()
   console.log(location)
-  return <h2>Query</h2>
+  const query = useMemo(() => new URLSearchParams(location.search), [location.search])
+  return <h2>Query: {query.get('id')}</h2>
 }
 
 // 提供用户信息和登入登出方法给整个 APP

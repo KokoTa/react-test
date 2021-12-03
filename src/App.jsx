@@ -35,7 +35,7 @@ import { Reducer } from './router/reducer.jsx'
 import { Previous } from './router/previous.jsx'
 import { Rect } from './router/rect.jsx'
 import { Test } from './router/test.jsx'
-import { CounterWrap } from './router/redux.jsx'
+import { CounterWrap, PostListWrap } from './router/redux.jsx'
 
 function App () {
   const auth = useAuth()
@@ -202,6 +202,8 @@ function App () {
           </Route>
           <Route path="/reduxDemo">
             <CounterWrap></CounterWrap>
+            <hr />
+            <PostListWrap></PostListWrap>
           </Route>
           <Route path="/test">
             <Test></Test>
